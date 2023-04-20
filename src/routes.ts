@@ -1,20 +1,10 @@
-import { prisma } from './prisma';
+import { prisma } from './lib/prisma';
 import { FastifyInstance } from 'fastify';
 
 import { z } from 'zod';
 import dayjs from 'dayjs';
 
-export async function appRoutes(app: FastifyInstance) {
-  app.get("/", async () => {
-    const habits = await prisma.habit.findMany({
-      include: {
-        weekDays: true,
-      },
-    });
-
-    return habits;
-  })
-  
+export async function appRoutes(app: FastifyInstance) {  
   app.post("/habits", async (request) => {
     const createHabitSchema = z.object({
       title: z.string(),
